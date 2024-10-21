@@ -89,12 +89,13 @@
               <a @click="clearCompleted">Clear completed</a>
             </div>
           </div>
+         
         </div>
         <div class="linkFlex2">
-          <a class="active" @click.prevent="showAll">All</a>
-          <a @click.prevent="showActive">Active</a>
-          <a @click.prevent="showCompleted">Completed</a>
-        </div>
+            <a class="active" @click.prevent="showAll">All</a>
+            <a @click.prevent="showActive">Active</a>
+            <a @click.prevent="showCompleted">Completed</a>
+          </div>
       </div>
     </div>
   </div>
@@ -124,7 +125,7 @@ export default {
       ],
       newTask: "",
       filter: "all",
-      isLightMode: true,
+      isLightMode: false,
     };
   },
   mounted() {
@@ -183,12 +184,13 @@ export default {
     toggleLightMode() {
       this.isLightMode = !this.isLightMode;
       localStorage.setItem("theme", this.isLightMode ? "light" : "dark");
-      document.body.className = this.isLightMode ? "light-mode" : "dark-mode"; 
+      document.body.className = this.isLightMode ? "light-mode" : "dark-mode"; // Update body class for immediate theme change
+    },
     loadTheme() {
       const savedTheme = localStorage.getItem("theme");
       if (savedTheme) {
         this.isLightMode = savedTheme === "light";
-        document.body.className = this.isLightMode ? "light-mode" : "dark-mode"; 
+        document.body.className = this.isLightMode ? "light-mode" : "dark-mode"; // Set the body class based on saved theme
       }
     },
   },
@@ -462,7 +464,7 @@ a.active {
   .linkFlex2 {
     display: block;
     background: var(--background-form);
-    margin-top: 1.5rem;
+    margin-top:1.5rem;
     border-radius: 5px;
     box-shadow: 0 5px 10px 16px rgba(0, 0, 0, 0.1);
     height: 50px;
