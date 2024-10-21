@@ -47,53 +47,56 @@
           />
         </div>
         <div class="taskItems">
-          <div
-            class="todo-item"
-            v-for="(task, index) in filteredTasks"
-            :key="task.id"
-          >
-            <label>
-              <input
-                type="checkbox"
-                :checked="task.completed"
-                @change="completeTask(task)"
-              />
-              <span class="checkmark"></span>
-            </label>
-            <div
-              class="task-content"
-              :class="task.completed ? 'toggle toggle-completed' : 'toggle'"
-            >
-              {{ task.title }}
-            </div>
-            <div class="actions">
-              <button @click="removeTask(index)">
-                <img src="./assets/icon-cross.svg" alt="Remove task" />
-              </button>
-            </div>
-          </div>
+          <draggable :list="filteredTasks" item-key="id" tag="ul">
+            <template #item="{ element, index }">
+              <div class="todo-item" :key="element.id">
+                <label>
+                  <input
+                    type="checkbox"
+                    :checked="element.completed"
+                    @change="completeTask(element)"
+                  />
+                  <span class="checkmark"></span>
+                </label>
+                <div
+                  id="task"
+                  @click.self="completeTask(element)"
+                  class="task-content"
+                  :class="
+                    element.completed ? 'toggle toggle-completed' : 'toggle'
+                  "
+                >
+                  {{ element.title }}
+                </div>
+                <div class="actions">
+                  <button @click="removeTask(index)">
+                    <img src="./assets/icon-cross.svg" alt="Remove task" />
+                  </button>
+                </div>
+              </div>
+            </template>
+          </draggable>
           <div class="foot-flex">
             <div class="pendingTasks">
               <span> {{ incomplete }} items left</span>
             </div>
             <div class="linkFlex">
-              <a  class="active" @click.prevent="showAll">All</a>
-              <a  @click.prevent="showActive">Active</a>
-              <a  @click.prevent="showCompleted">Completed</a>
+              <a class="active" @click.prevent="showAll">All</a>
+              <a @click.prevent="showActive">Active</a>
+              <a @click.prevent="showCompleted">Completed</a>
             </div>
             <div class="link">
               <a @click="clearCompleted">Clear completed</a>
             </div>
-            
           </div>
-          
+         
         </div>
+        <div class="linkFlex2">
+            <a class="active" @click.prevent="showAll">All</a>
+            <a @click.prevent="showActive">Active</a>
+            <a @click.prevent="showCompleted">Completed</a>
+          </div>
       </div>
-      <div class="linkFlex2">
-              <a  class="active" @click.prevent="showAll">All</a>
-              <a  @click.prevent="showActive">Active</a>
-              <a  @click.prevent="showCompleted">Completed</a>
-            </div>
     </div>
   </div>
 </template>
@@ -102,8 +105,10 @@
  
 
 <script>
+import draggable from "vuedraggable";
 export default {
   name: "TaskApp",
+  components: { draggable },
   data() {
     return {
       tasks: JSON.parse(localStorage.getItem("tasks")) || [
@@ -120,11 +125,11 @@ export default {
       ],
       newTask: "",
       filter: "all",
-      isLightMode: false, // Default is dark mode
+      isLightMode: true,
     };
   },
   mounted() {
-    this.loadTheme(); // Load the saved theme on mount
+    this.loadTheme();
   },
   computed: {
     incomplete() {
@@ -327,7 +332,9 @@ body {
 .task-content {
   padding: 0 15px;
 }
-
+#task {
+  cursor: pointer;
+}
 .todo-item label {
   position: relative;
   cursor: pointer;
@@ -451,32 +458,30 @@ a.active {
 }
 .linkFlex2 {
   display: none;
-  
 }
 
-@media (width < 600px){
-  .linkFlex2{
+@media (width < 600px) {
+  .linkFlex2 {
     display: block;
     background: var(--background-form);
-  margin-top: 1.5rem;
-  border-radius: 5px;
-  box-shadow: 0 5px 10px 16px rgba(0, 0, 0, 0.1);
-  height: 50px;
-  display: flex;
-  flex-direction: row;
-  gap: 1.5rem;
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
+    margin-top:1.5rem;
+    border-radius: 5px;
+    box-shadow: 0 5px 10px 16px rgba(0, 0, 0, 0.1);
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
   }
-  .linkFlex{
+  .linkFlex {
     display: none;
-    
   }
   .foot-flex {
-  display: flex;
-  justify-content: space-between;
-}
+    display: flex;
+    justify-content: space-between;
+  }
 }
 </style>
   
