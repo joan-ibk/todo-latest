@@ -81,7 +81,7 @@
               <span> {{ incomplete }} items left</span>
             </div>
             <div class="linkFlex">
-              <a class="active" @click.prevent="showAll">All</a>
+              <a  @click.prevent="showAll">All</a>
               <a @click.prevent="showActive">Active</a>
               <a @click.prevent="showCompleted">Completed</a>
             </div>
@@ -137,9 +137,9 @@ export default {
     },
     filteredTasks() {
       if (this.filter === "active") {
-        return this.tasks.filter((task) => !task.completed); // Only show active tasks
+        return this.tasks.filter((task) => !task.completed); 
       } else if (this.filter === "completed") {
-        return this.tasks.filter((task) => task.completed); // Only show completed tasks
+        return this.tasks.filter((task) => task.completed); 
       }
       return this.tasks; // Show all tasks by default
     },
@@ -148,7 +148,7 @@ export default {
     addTask() {
       if (this.newTask) {
         const task = {
-          id: Date.now(), // Add a unique id to each task
+          id: Date.now(), 
           title: this.newTask,
           completed: false,
         };
@@ -167,30 +167,30 @@ export default {
       this.filter = "completed"; // Set filter to 'completed'
     },
     clearCompleted() {
-      this.tasks = this.tasks.filter((task) => !task.completed); // Remove completed tasks
+      this.tasks = this.tasks.filter((task) => !task.completed); 
       this.saveTasksToLocalStorage();
     },
     completeTask(task) {
-      task.completed = !task.completed; // Toggle task completion
+      task.completed = !task.completed; 
       this.saveTasksToLocalStorage();
     },
     removeTask(index) {
-      this.tasks.splice(index, 1); // Remove task by index
+      this.tasks.splice(index, 1); 
       this.saveTasksToLocalStorage();
     },
     saveTasksToLocalStorage() {
-      localStorage.setItem("tasks", JSON.stringify(this.tasks)); // Save tasks to localStorage
+      localStorage.setItem("tasks", JSON.stringify(this.tasks)); 
     },
     toggleLightMode() {
       this.isLightMode = !this.isLightMode;
       localStorage.setItem("theme", this.isLightMode ? "light" : "dark");
-      document.body.className = this.isLightMode ? "light-mode" : "dark-mode"; // Update body class for immediate theme change
+      document.body.className = this.isLightMode ? "light-mode" : "dark-mode"; 
     },
     loadTheme() {
       const savedTheme = localStorage.getItem("theme");
       if (savedTheme) {
         this.isLightMode = savedTheme === "light";
-        document.body.className = this.isLightMode ? "light-mode" : "dark-mode"; // Set the body class based on saved theme
+        document.body.className = this.isLightMode ? "light-mode" : "dark-mode"; 
       }
     },
   },
@@ -441,18 +441,22 @@ body {
   gap: 1.5rem;
   cursor: pointer;
 }
-a {
+a{
   color: var(--mode-text);
   opacity: 0.8;
 }
 a:hover {
   color: var(--todo-para);
 }
-
-a.active {
+a:visited {
+  color: green;
+} 
+a:active {
   color: var(--bright-blue);
   font-weight: bold;
 }
+
+
 .link {
   cursor: pointer;
 }
