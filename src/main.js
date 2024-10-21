@@ -4,3 +4,5 @@ import draggable from 'vuedraggable';
 
 createApp(App).mount('#app')
 .component('draggable', draggable)
+
+
